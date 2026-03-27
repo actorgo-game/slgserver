@@ -1,0 +1,93 @@
+package code
+
+const (
+	OK    int32 = 0
+	Fail  int32 = -1
+	Error int32 = -2
+
+	InvalidParam          int32 = 1
+	DBError               int32 = 2
+	UserExist             int32 = 3
+	PwdIncorrect          int32 = 4
+	UserNotExist          int32 = 5
+	SessionInvalid        int32 = 6
+	HardwareIncorrect     int32 = 7
+	RoleAlreadyCreate     int32 = 8
+	RoleNotExist          int32 = 9
+	CityNotExist          int32 = 10
+	CityNotMe             int32 = 11
+	UpError               int32 = 12
+	GeneralNotFound       int32 = 13
+	GeneralNotMe          int32 = 14
+	ArmyNotFound          int32 = 15
+	ArmyNotMe             int32 = 15
+	ResNotEnough          int32 = 16
+	OutArmyLimit          int32 = 17
+	ArmyBusy              int32 = 18
+	GeneralBusy           int32 = 19
+	CannotGiveUp          int32 = 20
+	BuildNotMe            int32 = 21
+	ArmyNotMain           int32 = 22
+	UnReachable           int32 = 23
+	PhysicalPowerNotEnough int32 = 24
+	DecreeNotEnough       int32 = 25
+	GoldNotEnough         int32 = 26
+	GeneralRepeat         int32 = 27
+	CostNotEnough         int32 = 28
+	GeneralNoHas          int32 = 29
+	GeneralNoSame         int32 = 30
+	ArmyNotEnough         int32 = 31
+	TongShuaiNotEnough    int32 = 32
+	GeneralStarMax        int32 = 33
+	UnionCreateError      int32 = 34
+	UnionNotFound         int32 = 35
+	PermissionDenied      int32 = 36
+	UnionAlreadyHas       int32 = 37
+	UnionNotAllowExit     int32 = 38
+	ContentTooLong        int32 = 39
+	NotBelongUnion        int32 = 40
+	PeopleIsFull          int32 = 41
+	HasApply              int32 = 42
+	BuildCanNotDefend     int32 = 43
+	BuildCanNotAttack     int32 = 44
+	BuildMBSNotFound      int32 = 45
+	BuildWarFree          int32 = 46
+	ArmyConscript         int32 = 47
+	BuildGiveUpAlready    int32 = 48
+	CanNotBuildNew        int32 = 49
+	CanNotTransfer        int32 = 50
+	HoldIsFull            int32 = 51
+	ArmyIsOutside         int32 = 52
+	CanNotUpBuild         int32 = 53
+	CanNotDestroy         int32 = 54
+	OutCollectTimesLimit  int32 = 55
+	InCdCanNotOperate     int32 = 56
+	OutGeneralLimit       int32 = 57
+	NotHasJiShi           int32 = 58
+	OutPosTagLimit        int32 = 59
+	OutSkillLimit         int32 = 60
+	UpSkillError          int32 = 61
+	DownSkillError        int32 = 62
+	OutArmNotMatch        int32 = 63
+	PosNotSkill           int32 = 64
+	SkillLevelFull        int32 = 65
+	RoleNameExist         int32 = 66
+
+	AccountTokenFail  int32 = 100
+	AccountBindFail   int32 = 101
+	AccountAuthFail   int32 = 102
+	PlayerDenyLogin   int32 = 103
+	PlayerDuplicateLogin int32 = 104
+)
+
+var DenyLoginMsg = struct {
+	Code int32 `json:"code"`
+}{Code: PlayerDenyLogin}
+
+func IsOK(c int32) bool {
+	return c == OK
+}
+
+func IsFail(c int32) bool {
+	return c != OK
+}
