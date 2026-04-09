@@ -10,9 +10,9 @@ type HandlerFunc func(req *WsMsgReq, rsp *WsMsgRsp)
 type MiddlewareFunc func(HandlerFunc) HandlerFunc
 
 type Group struct {
-	prefix   string
-	hMap     map[string]HandlerFunc
-	hMapMidd map[string][]MiddlewareFunc
+	prefix     string
+	hMap       map[string]HandlerFunc
+	hMapMidd   map[string][]MiddlewareFunc
 	middleware []MiddlewareFunc
 }
 

@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	centerType   = "center"
+	centerType   = "loginserver"
 	accountActor = ".account"
 	sourcePath   = ".system"
 )

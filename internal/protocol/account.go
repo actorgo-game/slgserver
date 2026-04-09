@@ -44,7 +44,7 @@ type LogoutRsp struct {
 type Server struct {
 	Id   int    `json:"id"`
 	Slg  string `json:"slg"`
-	Chat string `json:"chat"`
+	Chat string `json:"chatserver"`
 }
 
 type ServerListReq struct{}

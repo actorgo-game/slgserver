@@ -15,15 +15,15 @@ import (
 )
 
 type ServerConn struct {
-	wsSocket    *websocket.Conn
-	outChan     chan *WsMsgRsp
-	isClosed    bool
-	needSecret  bool
-	Seq         int64
-	router      *Router
-	beforeClose func(conn WSConn)
-	onClose     func(conn WSConn)
-	property    map[string]interface{}
+	wsSocket     *websocket.Conn
+	outChan      chan *WsMsgRsp
+	isClosed     bool
+	needSecret   bool
+	Seq          int64
+	router       *Router
+	beforeClose  func(conn WSConn)
+	onClose      func(conn WSConn)
+	property     map[string]interface{}
 	propertyLock sync.RWMutex
 }
 

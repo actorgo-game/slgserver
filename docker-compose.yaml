@@ -31,7 +31,7 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile-chat
-    container_name: slg-chat
+    container_name: slg-chatserver
     restart: always
     ports:
       - '8002:8002'
@@ -46,7 +46,7 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile-gate
-    container_name: slg-gate
+    container_name: slg-gateserver
     restart: always
     ports:
       - '8004:8004'

@@ -4,28 +4,26 @@ import (
 	"fmt"
 	"os"
 
-	cherryConst "github.com/actorgo-game/actorgo/const"
-	"github.com/llr104/slgserver/internal/node/center"
-	"github.com/llr104/slgserver/internal/node/chat"
-	"github.com/llr104/slgserver/internal/node/game"
-	"github.com/llr104/slgserver/internal/node/gate"
-	"github.com/llr104/slgserver/internal/node/master"
-	"github.com/llr104/slgserver/internal/node/web"
+	cconst "github.com/actorgo-game/actorgo/const"
+	"github.com/llr104/slgserver/internal/node/chatserver"
+	"github.com/llr104/slgserver/internal/node/gateserver"
+	"github.com/llr104/slgserver/internal/node/httpserver"
+	"github.com/llr104/slgserver/internal/node/loginserver"
+	"github.com/llr104/slgserver/internal/node/slgserver"
 	"github.com/urfave/cli/v2"
 )
 
 func main() {
 	app := &cli.App{
 		Name:        "slgserver",
-		Description: "SLG game server powered by actorgo",
+		Description: "SLG slgserver server powered by actorgo",
 		Commands: []*cli.Command{
 			versionCommand(),
-			masterCommand(),
-			centerCommand(),
-			webCommand(),
-			gateCommand(),
-			gameCommand(),
-			chatCommand(),
+			loginserverCommand(),
+			httpserverCommand(),
+			gateserverCommand(),
+			slgserverCommand(),
+			chatserverCommand(),
 		},
 	}
 
@@ -41,79 +39,67 @@ func versionCommand() *cli.Command {
 		Aliases: []string{"ver", "v"},
 		Usage:   "view version",
 		Action: func(c *cli.Context) error {
-			fmt.Println(cherryConst.Version())
+			fmt.Println(cconst.Version())
 			return nil
 		},
 	}
 }
 
-func masterCommand() *cli.Command {
+func loginserverCommand() *cli.Command {
 	return &cli.Command{
-		Name:  "master",
-		Usage: "run master node (service discovery)",
+		Name:  "loginserver",
+		Usage: "run loginserver node (account management)",
 		Flags: getFlags(),
 		Action: func(c *cli.Context) error {
-			master.Run(c.String("path"), c.String("node"))
+			loginserver.Run(c.String("path"), c.String("node"))
 			return nil
 		},
 	}
 }
 
-func centerCommand() *cli.Command {
+func httpserverCommand() *cli.Command {
 	return &cli.Command{
-		Name:  "center",
-		Usage: "run center node (account management)",
+		Name:  "httpserver",
+		Usage: "run httpserver node (HTTP API)",
 		Flags: getFlags(),
 		Action: func(c *cli.Context) error {
-			center.Run(c.String("path"), c.String("node"))
+			httpserver.Run(c.String("path"), c.String("node"))
 			return nil
 		},
 	}
 }
 
-func webCommand() *cli.Command {
+func gateserverCommand() *cli.Command {
 	return &cli.Command{
-		Name:  "web",
-		Usage: "run web node (HTTP API)",
+		Name:  "gateserver",
+		Usage: "run gateserver node (WebSocket gateway)",
 		Flags: getFlags(),
 		Action: func(c *cli.Context) error {
-			web.Run(c.String("path"), c.String("node"))
+			gateserver.Run(c.String("path"), c.String("node"))
 			return nil
 		},
 	}
 }
 
-func gateCommand() *cli.Command {
+func slgserverCommand() *cli.Command {
 	return &cli.Command{
-		Name:  "gate",
-		Usage: "run gate node (WebSocket gateway)",
+		Name:  "slgserver",
+		Usage: "run slgserver node (slgserver logic)",
 		Flags: getFlags(),
 		Action: func(c *cli.Context) error {
-			gate.Run(c.String("path"), c.String("node"))
+			slgserver.Run(c.String("path"), c.String("node"))
 			return nil
 		},
 	}
 }
 
-func gameCommand() *cli.Command {
+func chatserverCommand() *cli.Command {
 	return &cli.Command{
-		Name:  "game",
-		Usage: "run game node (game logic)",
+		Name:  "chatserver",
+		Usage: "run chatserver node",
 		Flags: getFlags(),
 		Action: func(c *cli.Context) error {
-			game.Run(c.String("path"), c.String("node"))
-			return nil
-		},
-	}
-}
-
-func chatCommand() *cli.Command {
-	return &cli.Command{
-		Name:  "chat",
-		Usage: "run chat node",
-		Flags: getFlags(),
-		Action: func(c *cli.Context) error {
-			chat.Run(c.String("path"), c.String("node"))
+			chatserver.Run(c.String("path"), c.String("node"))
 			return nil
 		},
 	}
