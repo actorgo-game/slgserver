@@ -2,7 +2,8 @@ package slgserver
 
 import (
 	"github.com/actorgo-game/actorgo"
-	"github.com/llr104/slgserver/internal/component"
+	cmongo "github.com/actorgo-game/actorgo/components/mongo"
+	credis "github.com/actorgo-game/actorgo/components/redis"
 	"github.com/llr104/slgserver/internal/node/slgserver/module/mapmgr"
 	"github.com/llr104/slgserver/internal/node/slgserver/module/player"
 	"github.com/llr104/slgserver/internal/node/slgserver/module/unionmgr"
@@ -12,8 +13,8 @@ import (
 func Run(profileFilePath, nodeID string) {
 	app := actorgo.Configure(profileFilePath, nodeID, false, actorgo.Cluster)
 
-	app.Register(component.NewMongo())
-	app.Register(component.NewRedis())
+	app.Register(cmongo.NewComponent())
+	app.Register(credis.NewComponent())
 
 	app.AddActors(
 		&player.ActorPlayers{},

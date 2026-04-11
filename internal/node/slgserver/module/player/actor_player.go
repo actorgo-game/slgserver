@@ -5,11 +5,11 @@ import (
 	"strconv"
 	"time"
 
+	cmongo "github.com/actorgo-game/actorgo/components/mongo"
 	cfacade "github.com/actorgo-game/actorgo/facade"
 	clog "github.com/actorgo-game/actorgo/logger"
 	cactor "github.com/actorgo-game/actorgo/net/actor"
 	"github.com/llr104/slgserver/internal/code"
-	"github.com/llr104/slgserver/internal/component"
 	"github.com/llr104/slgserver/internal/data/entry"
 	"github.com/llr104/slgserver/internal/data/model"
 	"github.com/llr104/slgserver/internal/node/slgserver/module/online"
@@ -101,13 +101,7 @@ func (p *actorPlayer) OnInit() {
 }
 
 func (p *actorPlayer) initDB() {
-	mongoComp := p.App().Find(component.MongoComponentName)
-	if mongoComp == nil {
-		clog.Error("[actorPlayer] mongo component not found")
-		return
-	}
-	mc := mongoComp.(*component.MongoComponent)
-	db := mc.GetDb("slg_db")
+	db := cmongo.Instance().GetDb("slg_db")
 	if db == nil {
 		clog.Error("[actorPlayer] slg_db not found")
 		return

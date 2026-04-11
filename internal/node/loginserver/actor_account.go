@@ -6,11 +6,12 @@ import (
 	"fmt"
 	"time"
 
+	cmongo "github.com/actorgo-game/actorgo/components/mongo"
+	credis "github.com/actorgo-game/actorgo/components/redis"
 	clog "github.com/actorgo-game/actorgo/logger"
 	cactor "github.com/actorgo-game/actorgo/net/actor"
 	"github.com/go-redis/redis/v8"
 	"github.com/llr104/slgserver/internal/code"
-	"github.com/llr104/slgserver/internal/component"
 	"github.com/llr104/slgserver/internal/data/entry"
 	"github.com/llr104/slgserver/internal/protocol"
 )
@@ -27,16 +28,12 @@ func (p *ActorAccount) AliasID() string {
 }
 
 func (p *ActorAccount) OnInit() {
-	mongoComp := p.App().Find(component.MongoComponentName).(*component.MongoComponent)
-	db := mongoComp.GetDb("slg_db")
+	db := cmongo.Instance().GetDb("slg_db")
 	if db == nil {
 		clog.Error("[ActorAccount] slg_db not found")
 		return
 	}
 	p.accountEntry = entry.NewAccountEntry(db.Collection("accounts"))
-
-	redisComp := p.App().Find(component.RedisComponentName).(*component.RedisComponent)
-	p.redisClient = redisComp.Client()
 
 	p.Remote().Register("login", p.login)
 	p.Remote().Register("reLogin", p.reLogin)
@@ -57,8 +54,8 @@ func (p *ActorAccount) login(req *protocol.LoginReq) (*protocol.LoginRsp, int32)
 	token := p.generateToken(acc.AccountId, req.Username)
 
 	ctx := context.Background()
-	p.redisClient.Set(ctx, fmt.Sprintf("token:%s", token), acc.AccountId, 24*time.Hour)
-	p.redisClient.Set(ctx, fmt.Sprintf("session:%s", token), acc.AccountId, 24*time.Hour)
+	credis.Instance().Set(ctx, fmt.Sprintf("token:%s", token), acc.AccountId, 24*time.Hour)
+	credis.Instance().Set(ctx, fmt.Sprintf("session:%s", token), acc.AccountId, 24*time.Hour)
 
 	return &protocol.LoginRsp{
 		UId:      int(acc.AccountId),
@@ -73,14 +70,14 @@ func (p *ActorAccount) reLogin(req *protocol.ReLoginReq) (*protocol.ReLoginRsp, 
 	}
 
 	ctx := context.Background()
-	key := fmt.Sprintf("session:%s", req.Session)
-	uid, err := p.redisClient.Get(ctx, key).Int64()
+	key := fmt.Sprintf("session:%rqs", req.Session)
+	uid, err := credis.Instance().Get(ctx, key).Int64()
 	if err != nil || uid == 0 {
 		return nil, code.SessionInvalid
 	}
 
 	newToken := p.generateToken(uid, "")
-	p.redisClient.Set(ctx, fmt.Sprintf("token:%s", newToken), uid, 24*time.Hour)
+	credis.Instance().Set(ctx, fmt.Sprintf("token:%s", newToken), uid, 24*time.Hour)
 
 	return &protocol.ReLoginRsp{Session: newToken}, code.OK
 }
@@ -88,7 +85,7 @@ func (p *ActorAccount) reLogin(req *protocol.ReLoginReq) (*protocol.ReLoginRsp, 
 func (p *ActorAccount) logout(req *protocol.LogoutReq) (*protocol.LogoutRsp, int32) {
 	if req.UId > 0 {
 		ctx := context.Background()
-		p.redisClient.Del(ctx, fmt.Sprintf("uid_online:%d", req.UId))
+		credis.Instance().Del(ctx, fmt.Sprintf("uid_online:%d", req.UId))
 	}
 	return &protocol.LogoutRsp{UId: req.UId}, code.OK
 }

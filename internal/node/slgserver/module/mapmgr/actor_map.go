@@ -5,10 +5,10 @@ import (
 	"os"
 	"sync"
 
+	cmongo "github.com/actorgo-game/actorgo/components/mongo"
 	clog "github.com/actorgo-game/actorgo/logger"
 	cactor "github.com/actorgo-game/actorgo/net/actor"
 	"github.com/llr104/slgserver/internal/code"
-	"github.com/llr104/slgserver/internal/component"
 	"github.com/llr104/slgserver/internal/data/entry"
 	"github.com/llr104/slgserver/internal/data/model"
 	"github.com/llr104/slgserver/internal/protocol"
@@ -71,12 +71,7 @@ func (p *ActorMap) OnInit() {
 }
 
 func (p *ActorMap) initDB() {
-	mongoComp := p.App().Find(component.MongoComponentName)
-	if mongoComp == nil {
-		return
-	}
-	mc := mongoComp.(*component.MongoComponent)
-	db := mc.GetDb("slg_db")
+	db := cmongo.Instance().GetDb("slg_db")
 	if db == nil {
 		return
 	}
