@@ -9,6 +9,7 @@ import (
 	"github.com/llr104/slgserver/internal/node/gateserver"
 	"github.com/llr104/slgserver/internal/node/httpserver"
 	"github.com/llr104/slgserver/internal/node/loginserver"
+	"github.com/llr104/slgserver/internal/node/master"
 	"github.com/llr104/slgserver/internal/node/slgserver"
 	"github.com/urfave/cli/v2"
 )
@@ -19,6 +20,7 @@ func main() {
 		Description: "SLG slgserver server powered by actorgo",
 		Commands: []*cli.Command{
 			versionCommand(),
+			masterCommand(),
 			loginserverCommand(),
 			httpserverCommand(),
 			gateserverCommand(),
@@ -40,6 +42,18 @@ func versionCommand() *cli.Command {
 		Usage:   "view version",
 		Action: func(c *cli.Context) error {
 			fmt.Println(cconst.Version())
+			return nil
+		},
+	}
+}
+
+func masterCommand() *cli.Command {
+	return &cli.Command{
+		Name:    "master",
+		Aliases: []string{"m"},
+		Usage:   "run master node",
+		Action: func(c *cli.Context) error {
+			master.Run(c.String("path"), c.String("node"))
 			return nil
 		},
 	}
@@ -111,7 +125,7 @@ func getFlags() []cli.Flag {
 			Name:     "path",
 			Usage:    "profile config file path",
 			Required: false,
-			Value:    "./config/profile-dev.json",
+			Value:    "./config/game-cluster.json",
 		},
 		&cli.StringFlag{
 			Name:     "node",
