@@ -50,22 +50,22 @@
     "master_log": {
       "level": "debug",
       "enable_console": true,
-      "enable_write_file": false,
+      "enable_write_file": false
     },
     "center_log": {
       "level": "debug",
       "enable_console": true,
-      "enable_write_file": false,
+      "enable_write_file": false
     },
     "gate_log": {
       "level": "debug",
       "enable_console": true,
-      "enable_write_file": false,
+      "enable_write_file": false
     },
     "game_log": {
       "level": "debug",
       "enable_console": true,
-      "enable_write_file": false,
+      "enable_write_file": false
     }
   },
   "data_config": {
