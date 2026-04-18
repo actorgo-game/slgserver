@@ -3,7 +3,7 @@ module github.com/llr104/slgserver
 go 1.26.1
 
 require (
-	github.com/actorgo-game/actorgo v1.0.15
+	github.com/actorgo-game/actorgo v1.0.16
 	github.com/forgoer/openssl v1.6.0
 	github.com/gin-gonic/gin v1.11.0
 	github.com/go-redis/redis/v8 v8.11.5

@@ -5,6 +5,7 @@
   "arrival_timeout": "100",
   "prometheus_pushgateway": "",
   "print_logpath": "/home/admin/log",
+  "config_path":"../config/json/",
   "cluster": {
     "discovery": {
       "mode": "nats",
@@ -50,26 +51,29 @@
         "__settings__": {
           "svr_name": "loginserver",
           "ref_logger": "loginserver_log",
-          "mongo_id_list":[
-            "slg_db"
-          ]
+          "mongo_id_list":{
+            "slg_db":"slg_db"
+          }
         },
         "enable": true
       }
     ],
     "3": [
       {
-        "address": "",
+        "address": "127.0.0.1:8088",
         "__settings__": {
           "svr_name": "httpserver",
-          "ref_logger": "httpserver_log"
+          "ref_logger": "httpserver_log",
+          "mongo_id_list":{
+            "slg_db":"slg_db"
+          }
         },
         "enable": true
       }
     ],
     "4": [
       {
-        "address": "",
+        "address": "127.0.0.1",
         "__settings__": {
           "svr_name": "gateserver",
           "ref_logger": "gateserver_log"
@@ -82,7 +86,10 @@
         "address": "",
         "__settings__": {
           "svr_name": "slgserver",
-          "ref_logger": "slgserver_log"
+          "ref_logger": "slgserver_log",
+          "mongo_id_list":{
+            "slg_db":"slg_db"
+          }
         },
         "enable": true
       }

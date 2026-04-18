@@ -8,6 +8,7 @@ import (
 	cmongo "github.com/actorgo-game/actorgo/components/mongo"
 	clog "github.com/actorgo-game/actorgo/logger"
 	cactor "github.com/actorgo-game/actorgo/net/actor"
+	cprofile "github.com/actorgo-game/actorgo/profile"
 	"github.com/llr104/slgserver/internal/code"
 	"github.com/llr104/slgserver/internal/data/entry"
 	"github.com/llr104/slgserver/internal/data/model"
@@ -81,7 +82,7 @@ func (p *ActorMap) initDB() {
 }
 
 func (p *ActorMap) loadNationalMap() {
-	jsonPath := p.App().Settings().GetString("json_data", "config/data/")
+	jsonPath := cprofile.ConfigPath() //+ p.App().Settings().GetString("json_data", "config/json/")
 	data, err := os.ReadFile(jsonPath + "map_build.json")
 	if err != nil {
 		clog.Warn("[ActorMap] load map_build.json fail: %v", err)

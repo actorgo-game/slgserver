@@ -3,6 +3,7 @@ package httpserver
 import (
 	"github.com/actorgo-game/actorgo"
 	cgin "github.com/actorgo-game/actorgo/components/gin"
+	cmongo "github.com/actorgo-game/actorgo/components/mongo"
 	cfacade "github.com/actorgo-game/actorgo/facade"
 	"github.com/gin-gonic/gin"
 )
@@ -21,5 +22,6 @@ func Run(profileFilePath, nodeID string) {
 	httpServer.Register(new(Controller))
 
 	app.Register(httpServer)
+	app.Register(cmongo.NewComponent())
 	app.Startup()
 }
