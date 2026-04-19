@@ -40,7 +40,7 @@
       {
         "address": "",
         "__settings__": {
-          "svr_name": "mastersvr",
+          "node_name": "mastersvr",
           "ref_logger": "mastersvr_log"
         },
         "enable": true
@@ -50,7 +50,7 @@
       {
         "address": "",
         "__settings__": {
-          "svr_name": "loginserver",
+          "node_name": "loginserver",
           "ref_logger": "loginserver_log",
           "mongo_id_list":{
             "slg_db":"slg_db"
@@ -63,7 +63,7 @@
       {
         "address": "127.0.0.1:8088",
         "__settings__": {
-          "svr_name": "httpserver",
+          "node_name": "httpserver",
           "ref_logger": "httpserver_log",
           "mongo_id_list":{
             "slg_db":"slg_db"
@@ -76,7 +76,7 @@
       {
         "address": "127.0.0.1",
         "__settings__": {
-          "svr_name": "gateserver",
+          "node_name": "gateserver",
           "ref_logger": "gateserver_log"
         },
         "enable": true
@@ -86,7 +86,7 @@
       {
         "address": "",
         "__settings__": {
-          "svr_name": "slgserver",
+          "node_name": "slgserver",
           "ref_logger": "slgserver_log",
           "mongo_id_list":{
             "slg_db":"slg_db"
@@ -99,7 +99,7 @@
       {
         "address": "",
         "__settings__": {
-          "svr_name": "chatserver",
+          "node_name": "chatserver",
           "ref_logger": "chatserver_log"
         },
         "enable": true
@@ -110,33 +110,33 @@
   "logger": {
     "mastersvr_log": {
       "level": "debug",
-      "enable_console": true,
-      "enable_write_file": false
+      "enable_console": false,
+      "enable_write_file": true
     },
     "loginserver_log": {
       "level": "debug",
-      "enable_console": true,
-      "enable_write_file": false
+      "enable_console": false,
+      "enable_write_file": true
     },
     "httpserver_log": {
       "level": "debug",
-      "enable_console": true,
-      "enable_write_file": false
+      "enable_console": false,
+      "enable_write_file": true
     },
     "gateserver_log": {
       "level": "debug",
-      "enable_console": true,
-      "enable_write_file": false
+      "enable_console": false,
+      "enable_write_file": true
     },
     "slgserver_log": {
       "level": "debug",
-      "enable_console": true,
-      "enable_write_file": false
+      "enable_console": false,
+      "enable_write_file": true
     },
     "chatserver_log": {
       "level": "debug",
-      "enable_console": true,
-      "enable_write_file": false
+      "enable_console": false,
+      "enable_write_file": true
     }
   },
   "data_config": {
