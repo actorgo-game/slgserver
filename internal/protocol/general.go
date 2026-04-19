@@ -7,27 +7,52 @@ type GSkill struct {
 }
 
 type General struct {
-	Id            int      `json:"id"`
-	CfgId         int      `json:"cfgId"`
-	PhysicalPower int      `json:"physical_power"`
-	Order         int8     `json:"order"`
-	Level         int8     `json:"level"`
-	Exp           int      `json:"exp"`
-	CityId        int      `json:"cityId"`
-	CurArms       int      `json:"curArms"`
-	HasPrPoint    int      `json:"hasPrPoint"`
-	UsePrPoint    int      `json:"usePrPoint"`
-	AttackDis     int      `json:"attack_distance"`
-	ForceAdded    int      `json:"force_added"`
-	StrategyAdded int      `json:"strategy_added"`
-	DefenseAdded  int      `json:"defense_added"`
-	SpeedAdded    int      `json:"speed_added"`
-	DestroyAdded  int      `json:"destroy_added"`
-	StarLv        int8     `json:"star_lv"`
-	Star          int8     `json:"star"`
-	ParentId      int      `json:"parentId"`
+	Id            int       `json:"id"`
+	CfgId         int       `json:"cfgId"`
+	PhysicalPower int       `json:"physical_power"`
+	Order         int8      `json:"order"`
+	Level         int8      `json:"level"`
+	Exp           int       `json:"exp"`
+	CityId        int       `json:"cityId"`
+	CurArms       int       `json:"curArms"`
+	HasPrPoint    int       `json:"hasPrPoint"`
+	UsePrPoint    int       `json:"usePrPoint"`
+	AttackDis     int       `json:"attack_distance"`
+	ForceAdded    int       `json:"force_added"`
+	StrategyAdded int       `json:"strategy_added"`
+	DefenseAdded  int       `json:"defense_added"`
+	SpeedAdded    int       `json:"speed_added"`
+	DestroyAdded  int       `json:"destroy_added"`
+	StarLv        int8      `json:"star_lv"`
+	Star          int8      `json:"star"`
+	ParentId      int       `json:"parentId"`
 	Skills        []*GSkill `json:"skills"`
-	State         int8     `json:"state"`
+	State         int8      `json:"state"`
+}
+
+// ToArray 把 General 的关键属性平铺为整型数组，主要用于战斗回放序列化。
+// 与原 slgserver/proto.General.ToArray 保持一致顺序。
+func (this *General) ToArray() []int {
+	return []int{
+		this.Id,
+		this.CfgId,
+		this.PhysicalPower,
+		int(this.Order),
+		int(this.Level),
+		this.Exp,
+		this.CityId,
+		this.CurArms,
+		this.HasPrPoint,
+		this.UsePrPoint,
+		this.AttackDis,
+		this.ForceAdded,
+		this.StrategyAdded,
+		this.SpeedAdded,
+		this.DefenseAdded,
+		this.DestroyAdded,
+		int(this.StarLv),
+		int(this.Star),
+	}
 }
 
 type MyGeneralReq struct{}

@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"github.com/llr104/slgserver/internal/protocol"
+)
 
 type Role struct {
 	RId        int       `bson:"rid" json:"rid"`
@@ -8,7 +12,7 @@ type Role struct {
 	UId        int       `bson:"uid" json:"uid"`
 	NickName   string    `bson:"nick_name" json:"nickName"`
 	Balance    int       `bson:"balance" json:"balance"`
-	HeadId     int       `bson:"head_id" json:"headId"`
+	HeadId     int16     `bson:"head_id" json:"headId"`
 	Sex        int8      `bson:"sex" json:"sex"`
 	Profile    string    `bson:"profile" json:"profile"`
 	LoginTime  time.Time `bson:"login_time" json:"loginTime"`
@@ -18,4 +22,16 @@ type Role struct {
 
 func (Role) CollectionName() string {
 	return "roles"
+}
+
+func (this *Role) ToProto() interface{} {
+	p := protocol.Role{}
+	p.UId = this.UId
+	p.RId = this.RId
+	p.Sex = this.Sex
+	p.NickName = this.NickName
+	p.HeadId = this.HeadId
+	p.Balance = this.Balance
+	p.Profile = this.Profile
+	return p
 }

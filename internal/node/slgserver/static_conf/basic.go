@@ -1,15 +1,7 @@
 package static_conf
 
 import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"os"
-	"path"
-
-	"github.com/llr104/slgserver/config"
-	"github.com/llr104/slgserver/log"
-	"go.uber.org/zap"
+	clog "github.com/actorgo-game/actorgo/logger"
 )
 
 var Basic basic
@@ -34,7 +26,6 @@ type general struct {
 	DrawGeneralCost       int    `json:"draw_general_cost"`       //抽卡消耗金币
 	PrPoint               int    `json:"pr_point"`                //合成一个武将或者的技能点
 	Limit                 int    `json:"limit"`                   //武将数量上限
-
 }
 
 type role struct {
@@ -93,15 +84,6 @@ type basic struct {
 }
 
 func (this *basic) Load() {
-	jsonDir := config.File.MustValue("logic", "json_data", "../data/conf/")
-	fileName := path.Join(jsonDir, "basic.json")
-	jdata, err := ioutil.ReadFile(fileName)
-	if err != nil {
-		log.DefaultLog.Error("basic load file error", zap.Error(err), zap.String("file", fileName))
-		os.Exit(0)
-	}
-
-	json.Unmarshal(jdata, this)
-
-	fmt.Println(this)
+	LoadJSON("basic.json", this)
+	clog.Info("[static_conf] basic loaded: %+v", this)
 }

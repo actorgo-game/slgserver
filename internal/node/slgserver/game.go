@@ -4,15 +4,9 @@ import (
 	"github.com/actorgo-game/actorgo"
 	cmongo "github.com/actorgo-game/actorgo/components/mongo"
 	credis "github.com/actorgo-game/actorgo/components/redis"
-	"github.com/llr104/slgserver/internal/node/slgserver/module/mapmgr"
-	"github.com/llr104/slgserver/internal/node/slgserver/module/player"
-	"github.com/llr104/slgserver/internal/node/slgserver/module/unionmgr"
-	"github.com/llr104/slgserver/internal/node/slgserver/module/warmgr"
-	"github.com/llr104/slgserver/internal/node/slgserver/static_conf"
-	"github.com/llr104/slgserver/internal/node/slgserver/static_conf/facility"
-	"github.com/llr104/slgserver/internal/node/slgserver/static_conf/general"
-	"github.com/llr104/slgserver/internal/node/slgserver/static_conf/npc"
-	"github.com/llr104/slgserver/internal/node/slgserver/static_conf/skill"
+
+	"github.com/llr104/slgserver/internal/node/slgserver/controller"
+	"github.com/llr104/slgserver/internal/node/slgserver/run"
 )
 
 func Run(profileFilePath, nodeID string) {
@@ -21,27 +15,19 @@ func Run(profileFilePath, nodeID string) {
 	app.Register(cmongo.NewComponent())
 	app.Register(credis.NewComponent())
 
-	loadStaticConf()
+	run.Init(app, "slg_db", 0)
 
 	app.AddActors(
-		&player.ActorPlayers{},
-		mapmgr.NewActorMap(),
-		warmgr.NewActorWar(),
-		unionmgr.NewActorUnion(),
+		controller.NewActorRole(),
+		controller.NewActorCity(),
+		controller.NewActorNationMap(),
+		controller.NewActorGeneral(),
+		controller.NewActorSkill(),
+		controller.NewActorArmy(),
+		controller.NewActorWar(),
+		controller.NewActorUnion(),
+		controller.NewActorInterior(),
 	)
 
 	app.Startup()
-}
-
-func loadStaticConf() {
-	static_conf.Basic.Load()
-	static_conf.MapBuildConf.Load()
-	static_conf.MapBCConf.Load()
-
-	facility.FConf.Load()
-	general.GenBasic.Load()
-	skill.Skill.Load()
-	general.General.Load()
-	npc.Cfg.Load()
-
 }

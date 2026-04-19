@@ -1,20 +1,11 @@
 package static_conf
 
 import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"os"
-	"path"
-
-	"github.com/llr104/slgserver/config"
-	"github.com/llr104/slgserver/log"
-	"go.uber.org/zap"
+	clog "github.com/actorgo-game/actorgo/logger"
 )
 
-//地图资源配置
+// 地图资源配置
 var MapBuildConf mapBuildConf
-
 
 type cfg struct {
 	Type     int8   `json:"type"`
@@ -28,37 +19,26 @@ type cfg struct {
 	Defender int    `json:"defender"`
 }
 
-
 type mapBuildConf struct {
-	Title   string   `json:"title"`
-	Cfg		[]cfg `json:"cfg"`
-	cfgMap  map[int8][]cfg
+	Title  string `json:"title"`
+	Cfg    []cfg  `json:"cfg"`
+	cfgMap map[int8][]cfg
 }
 
-func (this *mapBuildConf) Load()  {
-	jsonDir := config.File.MustValue("logic", "json_data", "../data/conf/")
-	fileName := path.Join(jsonDir, "map_build.json")
-	jdata, err := ioutil.ReadFile(fileName)
-	if err != nil {
-		log.DefaultLog.Error("mapBuildConf load file error", zap.Error(err), zap.String("file", fileName))
-		os.Exit(0)
-	}
-
-	json.Unmarshal(jdata, this)
-
+func (this *mapBuildConf) Load() {
+	LoadJSON("map_build.json", this)
 
 	this.cfgMap = make(map[int8][]cfg)
 	for _, v := range this.Cfg {
-		if _, ok := this.cfgMap[v.Type]; ok == false{
+		if _, ok := this.cfgMap[v.Type]; !ok {
 			this.cfgMap[v.Type] = make([]cfg, 0)
 		}
 		this.cfgMap[v.Type] = append(this.cfgMap[v.Type], v)
 	}
-
-	fmt.Println(this)
+	clog.Info("[static_conf] map_build loaded: %d types", len(this.cfgMap))
 }
 
-func (this*mapBuildConf) BuildConfig(cfgType int8, level int8) (*cfg, bool) {
+func (this *mapBuildConf) BuildConfig(cfgType int8, level int8) (*cfg, bool) {
 	if c, ok := this.cfgMap[cfgType]; ok {
 		for _, v := range c {
 			if v.Level == level {
@@ -66,7 +46,5 @@ func (this*mapBuildConf) BuildConfig(cfgType int8, level int8) (*cfg, bool) {
 			}
 		}
 	}
-
 	return nil, false
 }
-

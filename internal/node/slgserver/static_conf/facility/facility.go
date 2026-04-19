@@ -2,14 +2,10 @@ package facility
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
-	"os"
 
-	"github.com/llr104/slgserver/log"
-	"go.uber.org/zap"
+	clog "github.com/actorgo-game/actorgo/logger"
 )
-
 
 type conditions struct {
 	Type  int `json:"type"`
@@ -27,19 +23,19 @@ type facility struct {
 }
 
 type NeedRes struct {
-	Decree 		int	`json:"decree"`
-	Grain		int `json:"grain"`
-	Wood		int `json:"wood"`
-	Iron		int `json:"iron"`
-	Stone		int `json:"stone"`
-	Gold		int	`json:"gold"`
+	Decree int `json:"decree"`
+	Grain  int `json:"grain"`
+	Wood   int `json:"wood"`
+	Iron   int `json:"iron"`
+	Stone  int `json:"stone"`
+	Gold   int `json:"gold"`
 }
 
 type fLevel struct {
 	Level  int     `json:"level"`
 	Values []int   `json:"values"`
 	Need   NeedRes `json:"need"`
-	Time   int     `json:"time"`	//升级需要的时间
+	Time   int     `json:"time"` //升级需要的时间
 }
 
 func NewFacility(jsonName string) *facility {
@@ -48,17 +44,14 @@ func NewFacility(jsonName string) *facility {
 	return f
 }
 
-func (this *facility) load(jsonName string)  {
-
+func (this *facility) load(jsonName string) {
 	jdata, err := ioutil.ReadFile(jsonName)
 	if err != nil {
-		log.DefaultLog.Error("facility load file error",
-			zap.Error(err), zap.String("file", jsonName))
-		os.Exit(0)
+		clog.Panic("[facility] load file error: file=%s, err=%v", jsonName, err)
+		return
 	}
-
-	json.Unmarshal(jdata, this)
-
-	fmt.Println(this)
+	if err := json.Unmarshal(jdata, this); err != nil {
+		clog.Panic("[facility] unmarshal error: file=%s, err=%v", jsonName, err)
+		return
+	}
 }
-

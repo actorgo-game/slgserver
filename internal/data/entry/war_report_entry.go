@@ -17,7 +17,7 @@ func NewWarReportEntry(coll *mongo.Collection, serverId int) *WarReportEntry {
 	ensureIndexes(coll,
 		normalIndex(bson.D{{Key: "server_id", Value: 1}, {Key: "a_rid", Value: 1}}),
 		normalIndex(bson.D{{Key: "server_id", Value: 1}, {Key: "d_rid", Value: 1}}),
-		normalIndex(bson.D{{Key: "created_at", Value: -1}}),
+		normalIndex(bson.D{{Key: "ctime", Value: -1}}),
 	)
 	return e
 }
@@ -32,7 +32,7 @@ func (e *WarReportEntry) FindByRId(rid int, limit int64) ([]*model.WarReport, er
 			{"d_rid": rid},
 		},
 	}
-	opts := options.Find().SetSort(bson.D{{Key: "created_at", Value: -1}}).SetLimit(limit)
+	opts := options.Find().SetSort(bson.D{{Key: "ctime", Value: -1}}).SetLimit(limit)
 	cursor, err := e.coll.Find(c, filter, opts)
 	if err != nil {
 		return nil, err

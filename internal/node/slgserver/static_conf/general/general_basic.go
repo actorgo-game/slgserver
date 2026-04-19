@@ -3,58 +3,54 @@ package general
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
-	"os"
 	"path"
 
-	"github.com/llr104/slgserver/config"
-	"github.com/llr104/slgserver/log"
-	"go.uber.org/zap"
+	clog "github.com/actorgo-game/actorgo/logger"
+	cprofile "github.com/actorgo-game/actorgo/profile"
 )
 
 var GenBasic Basic
 
 type gLevel struct {
-	Level		int8`json:"level"`
-	Exp			int `json:"exp"`
-	Soldiers	int `json:"soldiers"`
+	Level    int8 `json:"level"`
+	Exp      int  `json:"exp"`
+	Soldiers int  `json:"soldiers"`
 }
 
 type Basic struct {
-	Title	string    `json:"title"`
-	Levels	[]gLevel `json:"levels"`
+	Title  string   `json:"title"`
+	Levels []gLevel `json:"levels"`
 }
 
-func (this *Basic) Load()  {
-	jsonDir := config.File.MustValue("logic", "json_data", "../data/conf/")
-	fileName := path.Join(jsonDir, "general", "general_basic.json")
+func (this *Basic) Load() {
+	fileName := path.Join(cprofile.ConfigPath(), "general", "general_basic.json")
 	jdata, err := ioutil.ReadFile(fileName)
 	if err != nil {
-		log.DefaultLog.Error("general load file error", zap.Error(err), zap.String("file", fileName))
-		os.Exit(0)
+		clog.Panic("[general] load basic error: file=%s, err=%v", fileName, err)
+		return
 	}
-
-	json.Unmarshal(jdata, this)
-
-	fmt.Println(this)
+	if err := json.Unmarshal(jdata, this); err != nil {
+		clog.Panic("[general] unmarshal basic error: file=%s, err=%v", fileName, err)
+		return
+	}
+	clog.Info("[general] GenBasic loaded: %d levels", len(this.Levels))
 
 	General.Load()
 	GenArms.Load()
 }
 
-func (this *Basic) GetLevel(l int8) (*gLevel, error){
-	if l <= 0{
+func (this *Basic) GetLevel(l int8) (*gLevel, error) {
+	if l <= 0 {
 		return nil, errors.New("level error")
 	}
-	if int(l) <= len(this.Levels){
+	if int(l) <= len(this.Levels) {
 		return &this.Levels[l-1], nil
-	}else{
-		return nil, errors.New("level error")
 	}
+	return nil, errors.New("level error")
 }
 
-func (this*Basic) ExpToLevel(exp int) (int8, int){
+func (this *Basic) ExpToLevel(exp int) (int8, int) {
 	var level int8 = 0
 	limitExp := this.Levels[len(this.Levels)-1].Exp
 	for _, v := range this.Levels {
@@ -65,8 +61,6 @@ func (this*Basic) ExpToLevel(exp int) (int8, int){
 
 	if limitExp < exp {
 		return level, limitExp
-	}else{
-		return level, exp
 	}
+	return level, exp
 }
-
