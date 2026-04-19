@@ -61,7 +61,7 @@
     ],
     "3": [
       {
-        "address": "127.0.0.1:8088",
+        "address": ":8088",
         "__settings__": {
           "node_name": "httpserver",
           "ref_logger": "httpserver_log",
@@ -74,7 +74,7 @@
     ],
     "4": [
       {
-        "address": "127.0.0.1",
+        "address": ":8004",
         "__settings__": {
           "node_name": "gateserver",
           "ref_logger": "gateserver_log"

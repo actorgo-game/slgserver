@@ -4,6 +4,7 @@ import (
 	cslice "github.com/actorgo-game/actorgo/extend/slice"
 	cstring "github.com/actorgo-game/actorgo/extend/string"
 	cfacade "github.com/actorgo-game/actorgo/facade"
+	clog "github.com/actorgo-game/actorgo/logger"
 	"github.com/actorgo-game/actorgo/net/parser/pomelo"
 	pmessage "github.com/actorgo-game/actorgo/net/parser/pomelo/message"
 	cproto "github.com/actorgo-game/actorgo/net/proto"
@@ -35,10 +36,12 @@ var (
 // 3.(角色登录)客户端通过'beforeLoginRoutes'中的协议完成角色登录
 func onPomeloDataRoute(agent *pomelo.Agent, route *pmessage.Route, msg *pmessage.Message) {
 	session := pomelo.BuildSession(agent, msg)
+	clog.Debug("NodeType[%v] session[%v] route[%v] msg[%v]", agent.NodeType(), session, route, msg)
 
 	// agent没有"用户登录",且请求不是第一条协议，则踢掉agent，断开连接
 	if !session.IsBind() && msg.Route != firstRouteName {
 		agent.Kick(notLoginRsp, true)
+		clog.Debug("kick NodeType[%v] session[%v] route[%v] msg[%v]", agent.NodeType(), session, route, msg)
 		return
 	}
 
