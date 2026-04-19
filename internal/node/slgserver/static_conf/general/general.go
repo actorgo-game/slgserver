@@ -14,23 +14,23 @@ import (
 var General general
 
 type g struct {
-	Name         string `json:"name"`
-	CfgId        int    `json:"cfgId"`
-	Force        int    `json:"force"`
-	Strategy     int    `json:"strategy"`
-	Defense      int    `json:"defense"`
-	Speed        int    `json:"speed"`
-	Destroy      int    `json:"destroy"`
-	ForceGrow    int    `json:"force_grow"`
-	StrategyGrow int    `json:"strategy_grow"`
-	DefenseGrow  int    `json:"defense_grow"`
-	SpeedGrow    int    `json:"speed_grow"`
-	DestroyGrow  int    `json:"destroy_grow"`
-	Cost         int8   `json:"cost"`
-	Probability  int    `json:"probability"`
-	Star         int8   `json:"star"`
-	Arms         []int  `json:"arms"`
-	Camp         int8   `json:"camp"`
+	Name         string  `json:"name"`
+	CfgId        int     `json:"cfgId"`
+	Force        int     `json:"force"`
+	Strategy     int     `json:"strategy"`
+	Defense      int     `json:"defense"`
+	Speed        int     `json:"speed"`
+	Destroy      int     `json:"destroy"`
+	ForceGrow    float64 `json:"force_grow"`
+	StrategyGrow float64 `json:"strategy_grow"`
+	DefenseGrow  float64 `json:"defense_grow"`
+	SpeedGrow    float64 `json:"speed_grow"`
+	DestroyGrow  float64 `json:"destroy_grow"`
+	Cost         int8    `json:"cost"`
+	Probability  int     `json:"probability"`
+	Star         int8    `json:"star"`
+	Arms         []int   `json:"arms"`
+	Camp         int8    `json:"camp"`
 }
 
 type general struct {

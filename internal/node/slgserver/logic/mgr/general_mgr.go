@@ -302,11 +302,11 @@ func GeneralCfgInjector(cfgId int) (model.GeneralCfg, bool) {
 		return model.GeneralCfg{}, false
 	}
 	return model.GeneralCfg{
-		Force: c.Force, ForceGrow: c.ForceGrow,
-		Strategy: c.Strategy, StrategyGrow: c.StrategyGrow,
-		Defense: c.Defense, DefenseGrow: c.DefenseGrow,
-		Speed: c.Speed, SpeedGrow: c.SpeedGrow,
-		Destroy: c.Destroy, DestroyGrow: c.DestroyGrow,
+		Force: c.Force, ForceGrow: int(c.ForceGrow),
+		Strategy: c.Strategy, StrategyGrow: int(c.StrategyGrow),
+		Defense: c.Defense, DefenseGrow: int(c.DefenseGrow),
+		Speed: c.Speed, SpeedGrow: int(c.SpeedGrow),
+		Destroy: c.Destroy, DestroyGrow: int(c.DestroyGrow),
 		Camp: c.Camp, Star: c.Star, Arms: c.Arms,
 	}, true
 }
