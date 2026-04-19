@@ -35,7 +35,7 @@ var NMMgr = &NationalMapMgr{
 // Load 从 cprofile.ConfigPath()/map.json 读取整张大地图。
 // 与原 slgserver 同语义：根据 width/height 把扁平 list 转成 (x, y, type, level) 网格。
 func (this *NationalMapMgr) Load() {
-	fileName := path.Join(cprofile.ConfigPath(), "map.json")
+	fileName := path.Join(cprofile.JsonConfig().GetString("slg_map_data"))
 	jdata, err := os.ReadFile(fileName)
 	if err != nil {
 		clog.Error("[NMMgr] read map file err=%v file=%s", err, fileName)

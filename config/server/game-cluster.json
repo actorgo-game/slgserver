@@ -6,6 +6,7 @@
   "prometheus_pushgateway": "",
   "print_logpath": "/home/admin/log",
   "config_path":"../config/json/",
+  "slg_map_data":"../config/mapRes_0.json",
   "cluster": {
     "discovery": {
       "mode": "nats",
