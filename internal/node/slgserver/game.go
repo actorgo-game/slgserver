@@ -8,6 +8,11 @@ import (
 	"github.com/llr104/slgserver/internal/node/slgserver/module/player"
 	"github.com/llr104/slgserver/internal/node/slgserver/module/unionmgr"
 	"github.com/llr104/slgserver/internal/node/slgserver/module/warmgr"
+	"github.com/llr104/slgserver/internal/node/slgserver/static_conf"
+	"github.com/llr104/slgserver/internal/node/slgserver/static_conf/facility"
+	"github.com/llr104/slgserver/internal/node/slgserver/static_conf/general"
+	"github.com/llr104/slgserver/internal/node/slgserver/static_conf/npc"
+	"github.com/llr104/slgserver/internal/node/slgserver/static_conf/skill"
 )
 
 func Run(profileFilePath, nodeID string) {
@@ -15,6 +20,8 @@ func Run(profileFilePath, nodeID string) {
 
 	app.Register(cmongo.NewComponent())
 	app.Register(credis.NewComponent())
+
+	loadStaticConf()
 
 	app.AddActors(
 		&player.ActorPlayers{},
@@ -24,4 +31,17 @@ func Run(profileFilePath, nodeID string) {
 	)
 
 	app.Startup()
+}
+
+func loadStaticConf() {
+	static_conf.Basic.Load()
+	static_conf.MapBuildConf.Load()
+	static_conf.MapBCConf.Load()
+
+	facility.FConf.Load()
+	general.GenBasic.Load()
+	skill.Skill.Load()
+	general.General.Load()
+	npc.Cfg.Load()
+
 }
