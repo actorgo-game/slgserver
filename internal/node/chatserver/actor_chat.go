@@ -68,7 +68,7 @@ func (p *ActorChatRoom) AliasID() string {
 func (p *ActorChatRoom) OnInit() {
 	p.Remote().Register("login", p.login)
 	p.Remote().Register("logout", p.logout)
-	p.Remote().Register("chatserver", p.chat)
+	p.Remote().Register("chat", p.chat)
 	p.Remote().Register("history", p.history)
 	p.Remote().Register("join", p.join)
 	p.Remote().Register("exit", p.exit)

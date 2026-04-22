@@ -5,6 +5,7 @@ import (
 	cmongo "github.com/actorgo-game/actorgo/components/mongo"
 	credis "github.com/actorgo-game/actorgo/components/redis"
 	cfacade "github.com/actorgo-game/actorgo/facade"
+	cserializer "github.com/actorgo-game/actorgo/net/serializer"
 
 	"github.com/llr104/slgserver/internal/node/slgserver/controller"
 	"github.com/llr104/slgserver/internal/node/slgserver/run"
@@ -28,6 +29,7 @@ func (p *slgInitComponent) OnAfterInit() {
 
 func Run(profileFilePath, nodeID string) {
 	app := actorgo.Configure(profileFilePath, nodeID, false, actorgo.Cluster)
+	app.SetSerializer(cserializer.NewJSON())
 
 	app.Register(cmongo.NewComponent())
 	app.Register(credis.NewComponent())

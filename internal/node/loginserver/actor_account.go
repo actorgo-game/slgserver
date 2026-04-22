@@ -70,7 +70,7 @@ func (p *ActorAccount) reLogin(req *protocol.ReLoginReq) (*protocol.ReLoginRsp, 
 	}
 
 	ctx := context.Background()
-	key := fmt.Sprintf("session:%rqs", req.Session)
+	key := fmt.Sprintf("session:%s", req.Session)
 	uid, err := credis.Instance().Get(ctx, key).Int64()
 	if err != nil || uid == 0 {
 		return nil, code.SessionInvalid
@@ -78,6 +78,7 @@ func (p *ActorAccount) reLogin(req *protocol.ReLoginReq) (*protocol.ReLoginRsp, 
 
 	newToken := p.generateToken(uid, "")
 	credis.Instance().Set(ctx, fmt.Sprintf("token:%s", newToken), uid, 24*time.Hour)
+	credis.Instance().Set(ctx, fmt.Sprintf("session:%s", newToken), uid, 24*time.Hour)
 
 	return &protocol.ReLoginRsp{Session: newToken}, code.OK
 }

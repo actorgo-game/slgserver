@@ -5,10 +5,12 @@ import (
 	cfacade "github.com/actorgo-game/actorgo/facade"
 	cconnector "github.com/actorgo-game/actorgo/net/connector"
 	"github.com/actorgo-game/actorgo/net/parser/pomelo"
+	cserializer "github.com/actorgo-game/actorgo/net/serializer"
 )
 
 func Run(profileFilePath, nodeID string) {
 	app := actorgo.Configure(profileFilePath, nodeID, true, actorgo.Cluster)
+	app.SetSerializer(cserializer.NewJSON())
 
 	// 设置网络数据包解析器
 	netParser := buildPomeloParser(app)
